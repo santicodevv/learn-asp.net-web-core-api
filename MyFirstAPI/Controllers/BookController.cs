@@ -54,6 +54,39 @@ namespace MyFirstAPI.Controllers
 
             return Ok(result.ToList());
         }
+
+        [HttpGet("search")]
+        public ActionResult<List<Book>> GetBookByAuthor(string author)
+        {
+            var result = _books.Where(b => b.Author?.Equals(author, StringComparison.OrdinalIgnoreCase) == true);
+
+            if (result.ToList().Count == 0)
+                return NotFound();
+
+            return Ok(result.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult<Book> Create(Book newBook)
+        {
+            newBook.Id = _books.Count + 1;
+            _books.Add(newBook);
+
+            return CreatedAtAction(nameof(GetById), new { Id = newBook.Id }, newBook);
+        }
+
+        [HttpPut("{id}/price")]
+        public ActionResult<Book> Update(int id, [FromBody] decimal price)
+        {
+            var findProduct = _books.FirstOrDefault(b => b.Id == id);
+            if (findProduct is null)
+                return NotFound();
+
+            findProduct.Price = price;
+
+            return Ok(findProduct);
+        }
+
     }
 }
 
