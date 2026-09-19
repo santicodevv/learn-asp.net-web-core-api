@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "C:\\learn\\ASP.NET\\MyFirstAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{45F75552-7C1B-A03B-D43B-1129F270063E}|MyFirstAPI.csproj|c:\\learn\\asp.net\\myfirstapi\\controllers\\taskscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{45F75552-7C1B-A03B-D43B-1129F270063E}|MyFirstAPI.csproj|solutionrelative:controllers\\taskscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{45F75552-7C1B-A03B-D43B-1129F270063E}|MyFirstAPI.csproj|c:\\learn\\asp.net\\myfirstapi\\controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{45F75552-7C1B-A03B-D43B-1129F270063E}|MyFirstAPI.csproj|solutionrelative:controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{45F75552-7C1B-A03B-D43B-1129F270063E}|MyFirstAPI.csproj|c:\\learn\\asp.net\\myfirstapi\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{45F75552-7C1B-A03B-D43B-1129F270063E}|MyFirstAPI.csproj|solutionrelative:controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{45F75552-7C1B-A03B-D43B-1129F270063E}|MyFirstAPI.csproj|c:\\learn\\asp.net\\myfirstapi\\controllers\\everthingokcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{45F75552-7C1B-A03B-D43B-1129F270063E}|MyFirstAPI.csproj|solutionrelative:controllers\\everthingokcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{45F75552-7C1B-A03B-D43B-1129F270063E}|MyFirstAPI.csproj|c:\\learn\\asp.net\\myfirstapi\\controllers\\taskcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{45F75552-7C1B-A03B-D43B-1129F270063E}|MyFirstAPI.csproj|solutionrelative:controllers\\taskcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,40 +23,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "TasksController.cs",
-              "DocumentMoniker": "C:\\learn\\ASP.NET\\MyFirstAPI\\Controllers\\TasksController.cs",
-              "RelativeDocumentMoniker": "Controllers\\TasksController.cs",
-              "ToolTip": "C:\\learn\\ASP.NET\\MyFirstAPI\\Controllers\\TasksController.cs",
-              "RelativeToolTip": "Controllers\\TasksController.cs",
-              "ViewState": "AgIAAFkAAAAAAAAAAAAuwG8AAAAAAAAAAAAAAA==",
+              "Title": "BookController.cs",
+              "DocumentMoniker": "C:\\learn\\ASP.NET\\MyFirstAPI\\Controllers\\BookController.cs",
+              "RelativeDocumentMoniker": "Controllers\\BookController.cs",
+              "ToolTip": "C:\\learn\\ASP.NET\\MyFirstAPI\\Controllers\\BookController.cs",
+              "RelativeToolTip": "Controllers\\BookController.cs",
+              "ViewState": "AgIAACYAAAAAAAAAAAAgwCwAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-16T15:42:11.969Z",
+              "WhenOpened": "2026-09-17T16:16:29.644Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "EverthingOKController.cs",
-              "DocumentMoniker": "C:\\learn\\ASP.NET\\MyFirstAPI\\Controllers\\EverthingOKController.cs",
-              "RelativeDocumentMoniker": "Controllers\\EverthingOKController.cs",
-              "ToolTip": "C:\\learn\\ASP.NET\\MyFirstAPI\\Controllers\\EverthingOKController.cs",
-              "RelativeToolTip": "Controllers\\EverthingOKController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-15T03:39:13.966Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ProductsController.cs",
-              "DocumentMoniker": "C:\\learn\\ASP.NET\\MyFirstAPI\\Controllers\\ProductsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ProductsController.cs",
-              "ToolTip": "C:\\learn\\ASP.NET\\MyFirstAPI\\Controllers\\ProductsController.cs",
-              "RelativeToolTip": "Controllers\\ProductsController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Title": "TaskController.cs",
+              "DocumentMoniker": "C:\\learn\\ASP.NET\\MyFirstAPI\\Controllers\\TaskController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TaskController.cs",
+              "ToolTip": "C:\\learn\\ASP.NET\\MyFirstAPI\\Controllers\\TaskController.cs",
+              "RelativeToolTip": "Controllers\\TaskController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-15T03:51:48.462Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-17T14:50:37.369Z"
             }
           ]
         }

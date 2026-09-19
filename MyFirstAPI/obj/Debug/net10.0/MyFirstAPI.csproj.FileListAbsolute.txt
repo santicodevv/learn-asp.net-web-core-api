@@ -34,3 +34,4 @@ C:\learn\ASP.NET\MyFirstAPI\obj\Debug\net10.0\ref\MyFirstAPI.dll
 C:\learn\ASP.NET\MyFirstAPI\bin\Debug\net10.0\MyFirstAPI.staticwebassets.runtime.json
 C:\learn\ASP.NET\MyFirstAPI\obj\Debug\net10.0\compressed\0cr6rcd3lp-{0}-f3fcizedq5-f3fcizedq5.gz
 C:\learn\ASP.NET\MyFirstAPI\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+C:\learn\ASP.NET\MyFirstAPI\obj\Debug\net10.0\MyFirstAPI.sourcelink.json

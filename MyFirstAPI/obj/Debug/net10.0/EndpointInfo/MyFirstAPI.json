@@ -13,10 +13,10 @@
     }
   ],
   "paths": {
-    "/api/EverthingOK": {
+    "/api/Book": {
       "get": {
         "tags": [
-          "EverthingOK"
+          "Book"
         ],
         "responses": {
           "200": {
@@ -24,17 +24,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Book"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Book"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Book"
+                  }
                 }
               }
             }
@@ -42,10 +51,10 @@
         }
       }
     },
-    "/api/Products/{id}": {
+    "/api/Book/{id}": {
       "get": {
         "tags": [
-          "Products"
+          "Book"
         ],
         "parameters": [
           {
@@ -68,17 +77,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/Book"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/Book"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/Book"
                 }
               }
             }
@@ -86,19 +95,10 @@
         }
       }
     },
-    "/api/Products/search": {
+    "/api/Book/test": {
       "get": {
         "tags": [
-          "Products"
-        ],
-        "parameters": [
-          {
-            "name": "name",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
+          "Book"
         ],
         "responses": {
           "200": {
@@ -106,17 +106,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/Book"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/Book"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/Book"
                 }
               }
             }
@@ -124,89 +124,10 @@
         }
       }
     },
-    "/api/Tasks/{id}": {
+    "/api/Task": {
       "get": {
         "tags": [
-          "Tasks"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "pattern": "^-?(?:0|[1-9]\\d*)$",
-              "type": [
-                "integer",
-                "string"
-              ],
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/TaskDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TaskDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TaskDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Tasks/search": {
-      "get": {
-        "tags": [
-          "Tasks"
-        ],
-        "parameters": [
-          {
-            "name": "title",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "priority",
-            "in": "query",
-            "schema": {
-              "pattern": "^-?(?:0|[1-9]\\d*)$",
-              "type": [
-                "integer",
-                "string"
-              ],
-              "format": "int32"
-            }
-          },
-          {
-            "name": "completed",
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "overdue",
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          }
+          "Task"
         ],
         "responses": {
           "200": {
@@ -216,7 +137,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TaskDto"
+                    "$ref": "#/components/schemas/TaskItem"
                   }
                 }
               },
@@ -224,7 +145,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TaskDto"
+                    "$ref": "#/components/schemas/TaskItem"
                   }
                 }
               },
@@ -232,57 +153,8 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TaskDto"
+                    "$ref": "#/components/schemas/TaskItem"
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Tasks": {
-      "post": {
-        "tags": [
-          "Tasks"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTaskDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTaskDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTaskDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateTaskDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateTaskDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateTaskDto"
                 }
               }
             }
@@ -293,30 +165,7 @@
   },
   "components": {
     "schemas": {
-      "CreateTaskDto": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "dueDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "priority": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          }
-        }
-      },
-      "TaskDto": {
+      "Book": {
         "type": "object",
         "properties": {
           "id": {
@@ -330,28 +179,40 @@
           "title": {
             "type": "string"
           },
-          "description": {
-            "type": "string"
-          },
-          "isCompleted": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "completedAt": {
+          "author": {
             "type": [
               "null",
               "string"
+            ]
+          },
+          "price": {
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
             ],
-            "format": "date-time"
+            "format": "double"
           },
-          "dueDate": {
-            "type": "string",
-            "format": "date-time"
+          "isAvailable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TaskItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
           },
-          "isOverdue": {
+          "name": {
+            "type": "string"
+          },
+          "done": {
             "type": "boolean"
           }
         }
@@ -360,13 +221,10 @@
   },
   "tags": [
     {
-      "name": "EverthingOK"
+      "name": "Book"
     },
     {
-      "name": "Products"
-    },
-    {
-      "name": "Tasks"
+      "name": "Task"
     }
   ]
 }
