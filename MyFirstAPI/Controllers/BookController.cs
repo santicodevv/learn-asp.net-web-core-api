@@ -13,22 +13,172 @@ namespace MyFirstAPI.Controllers
                 Id = 1,
                 Title = "React.JS",
                 Author = "WelinDev",
-                IsAvailable = false
+                IsAvailable = false,
+                Price = 15000
             },
 
             new Book
             {
                 Id = 2,
-                Title = "Github",
+                Title = "GitHub",
                 Author = null,
-                IsAvailable = false
+                IsAvailable = false,
+                Price = 1500
             },
+
+            new Book
+            {
+                Id = 3,
+                Title = "GitHub Actions",
+                Author = null,
+                IsAvailable = false,
+                Price = 4000
+            },
+
+            new Book
+            {
+                Id = 4,
+                Title = "C# Fundamentals",
+                Author = "Microsoft",
+                IsAvailable = true,
+                Price = 30000
+            },
+
+            new Book
+            {
+                Id = 5,
+                Title = "ASP.NET Core",
+                Author = "Microsoft",
+                IsAvailable = true,
+                Price = 35000
+            },
+
+            new Book
+            {
+                Id = 6,
+                Title = "Entity Framework Core",
+                Author = "Microsoft",
+                IsAvailable = false,
+                Price = 17000
+            },
+
+            new Book
+            {
+                Id = 7,
+                Title = "Node.js",
+                Author = "Ryan Dahl",
+                IsAvailable = true,
+                Price = 38000
+            },
+
+            new Book
+            {
+                Id = 8,
+                Title = "NestJS",
+                Author = "Kamil Myśliwiec",
+                IsAvailable = true,
+                Price = 40000
+            },
+
+            new Book
+            {
+                Id = 9,
+                Title = "TypeScript",
+                Author = "Microsoft",
+                IsAvailable = false,
+                Price = 33000
+            },
+
+            new Book
+            {
+                Id = 10,
+                Title = "JavaScript",
+                Author = "Brendan Eich",
+                IsAvailable = true,
+                Price = 550000
+            },
+
+            new Book
+            {
+                Id = 11,
+                Title = "Clean Code",
+                Author = "Robert C. Martin",
+                IsAvailable = false,
+                Price = 10000
+            },
+
+            new Book
+            {
+                Id = 12,
+                Title = "Design Patterns",
+                Author = "Erich Gamma",
+                IsAvailable = true,
+                Price = 599
+            },
+
+            new Book
+            {
+                Id = 13,
+                Title = "Docker",
+                Author = "Docker Team",
+                IsAvailable = true,
+                Price = 3000
+            },
+
+            new Book
+            {
+                Id = 14,
+                Title = "Kubernetes",
+                Author = "Kubernetes Team",
+                IsAvailable = false,
+                Price = 2000
+            },
+
+            new Book
+            {
+                Id = 15,
+                Title = "PostgreSQL",
+                Author = "PostgreSQL Global Development Group",
+                IsAvailable = true,
+                Price = 1000
+            },
+
+            new Book
+            {
+                Id = 16,
+                Title = "SQL Fundamentals",
+                Author = null,
+                IsAvailable = false,
+                Price = 1500
+            },
+
+            new Book
+            {
+                Id = 17,
+                Title = "Git",
+                Author = "Linus Torvalds",
+                IsAvailable = true,
+                Price = 2300
+            },
+
+            new Book
+            {
+                Id = 18,
+                Title = "Software Architecture",
+                Author = "Mark Richards",
+                IsAvailable = true,
+                Price = 2600
+            }
         };
 
+
         [HttpGet]
-        public ActionResult<List<Book>> GetAll()
+        public ActionResult<List<Book>> GetAll(int page = 1, int pageSize = 10)
         {
-            return Ok(_books);
+            var result = _books.Skip((page - 1) * pageSize)
+                         .Take(pageSize).ToList();
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
@@ -87,6 +237,18 @@ namespace MyFirstAPI.Controllers
             return Ok(findProduct);
         }
 
+        [HttpGet("price/{minPrice:decimal}/{maxPrice:decimal}")]
+        public ActionResult<List<Book>> GetBooksByMinMaxPrice(decimal minPrice, decimal maxPrice)
+        {
+            var result = _books.Where(b => b.Price >= minPrice && b.Price <= maxPrice)
+                            .ToList();  
+
+            if (result.Count == 0)
+                return NotFound();
+
+            return Ok(result);
+        }
+          
     }
 }
 

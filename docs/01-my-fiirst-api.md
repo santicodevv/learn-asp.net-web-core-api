@@ -210,3 +210,101 @@ Ahora el precio se envía en el **body** de la petición:
 | `[FromBody]` en tipos complejos | Se infiere automáticamente |
 | Query string para actualizar | No es buena práctica |
 | Body para actualizar | Es la forma correcta |
+
+---
+
+## 🛣️ Route Constraints y Query Strings Opcionales
+
+### 🔒 Route Constraints (Restricciones de Ruta)
+
+Las restricciones de ruta permiten validar el **tipo de dato** que recibe un placeholder en la URL. Si el dato no cumple con la restricción, ASP.NET Core automáticamente devuelve un **404 Not Found** sin necesidad de validar manualmente.
+
+#### Nuevo Endpoint: Filtrar libros por rango de precio
+
+```http
+GET /api/book/price/{minPrice}/{maxPrice}
+```
+
+```csharp
+[HttpGet("price/{minPrice:decimal}/{maxPrice:decimal}")]
+public ActionResult<List<Book>> GetBooksByMinMaxPrice(decimal minPrice, decimal maxPrice)
+{
+    var result = _books.Where(b => b.Price >= minPrice && b.Price <= maxPrice)
+                    .ToList();
+
+    if (result.Count == 0)
+        return NotFound();
+
+    return Ok(result);
+}
+```
+
+#### ¿Qué hace `:decimal`?
+
+El constraint `:decimal` indica que el parámetro **debe ser un número decimal**. Si alguien intenta acceder con un valor inválido:
+
+```
+GET /api/book/price/abc/xyz
+```
+
+ASP.NET Core devuelve automáticamente **404 Not Found** sin ejecutar el método.
+
+#### Tipos de constraints disponibles
+
+| Constraint | Descripción | Ejemplo |
+|------------|-------------|---------|
+| `:int` | Debe ser un entero | `{id:int}` |
+| `:decimal` | Debe ser un decimal | `{price:decimal}` |
+| `:bool` | Debe ser true/false | `{active:bool}` |
+| `:guid` | Debe ser un GUID válido | `{id:guid}` |
+| `:minlength(n)` | Mínimo n caracteres | `{name:minlength(3)}` |
+| `:maxlength(n)` | Máximo n caracteres | `{name:maxlength(50)}` |
+| `:min(n)` | Valor mínimo | `{age:min(18)}` |
+| `:max(n)` | Valor máximo | `{age:max(100)}` |
+
+---
+
+### ❓ Query Strings Opcionales con Valores por Defecto
+
+Podemos hacer que los parámetros de query string sean **opcionales** asignándoles un valor por defecto directamente en el método.
+
+#### Endpoint actualizado: Paginación
+
+```http
+GET /api/book?page=1&pageSize=10
+```
+
+```csharp
+[HttpGet]
+public ActionResult<List<Book>> GetAll(int page = 1, int pageSize = 10)
+{
+    var result = _books.Skip((page - 1) * pageSize)
+                 .Take(pageSize).ToList();
+
+    return Ok(result);
+}
+```
+
+#### ¿Cómo funciona?
+
+- Si no se envía `page`, usa el valor **1** por defecto
+- Si no se envía `pageSize`, usa el valor **10** por defecto
+- Esto permite llamar al endpoint de diferentes formas:
+
+```http
+GET /api/book                     → page=1, pageSize=10
+GET /api/book?page=2              → page=2, pageSize=10
+GET /api/book?pageSize=5          → page=1, pageSize=5
+GET /api/book?page=3&pageSize=20  → page=3, pageSize=20
+```
+
+---
+
+### 📝 Resumen
+
+| Concepto | Aprendizaje |
+|----------|-------------|
+| Route Constraints | Validan el tipo de dato en la URL automáticamente |
+| `:decimal`, `:int`, etc. | Restricciones de tipo que devuelven 404 si no se cumplen |
+| Parámetros opcionales | Se definen con `= valorDefault` en el método |
+| Paginación | Se implementa con `Skip()` y `Take()` de LINQ |
