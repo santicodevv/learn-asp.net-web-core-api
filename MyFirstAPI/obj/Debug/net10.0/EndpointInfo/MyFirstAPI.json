@@ -86,17 +86,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Book"
+                "$ref": "#/components/schemas/CreateBookDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Book"
+                "$ref": "#/components/schemas/CreateBookDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Book"
+                "$ref": "#/components/schemas/CreateBookDto"
               }
             }
           },
@@ -336,8 +336,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "minimum": 1,
-              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
               "type": "number",
               "format": "double"
             }
@@ -347,22 +346,9 @@
             "in": "path",
             "required": true,
             "schema": {
-              "maximum": 20000,
-              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
               "type": "number",
               "format": "double"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "pattern": "^-?(?:0|[1-9]\\d*)$",
-              "type": [
-                "integer",
-                "string"
-              ],
-              "format": "int32"
             }
           }
         ],
@@ -461,6 +447,38 @@
             ]
           },
           "price": {
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
+            ],
+            "format": "double"
+          },
+          "isAvailable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateBookDto": {
+        "required": [
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "maxLength": 100,
+            "type": "string"
+          },
+          "author": {
+            "maxLength": 100,
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "price": {
+            "maximum": 100000,
+            "minimum": 0.1,
             "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
             "type": [
               "number",

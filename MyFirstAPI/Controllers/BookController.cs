@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyFirstAPI.Controllers
 {
@@ -173,56 +174,66 @@ namespace MyFirstAPI.Controllers
 
 
         [HttpGet]
-        public ActionResult<List<Book>> GetAll(int page = 1, int pageSize = 10)
+        public ActionResult<List<BookDto>> GetAll(int page = 1, int pageSize = 10)
         {
             var result = _books.Skip((page - 1) * pageSize)
-                         .Take(pageSize).ToList();
+                         .Take(pageSize)
+                         .Select(b => MapToDto(b))
+                         .ToList();
 
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Book> GetById(int id)
+        public ActionResult<BookDto> GetById(int id)
         {
             var book = _books.FirstOrDefault(b => b.Id == id);
 
             if (book is null)
                 return NotFound();
 
-            return Ok(book);
+            var result = MapToDto(book);
+
+            return Ok(result);
         }
 
         [HttpGet("test")]
-        public ActionResult<Book> GetBookAvailable()
+        public ActionResult<BookDto> GetBookAvailable()
         {
-            var result = _books.Where(b => b.IsAvailable == true);
+            var result = _books.Where(b => b.IsAvailable == true)
+                           .Select(b => MapToDto(b))
+                           .ToList();
 
-            if (result.ToList().Count == 0)
+            if (result.Count == 0)
             {
                 return NotFound();
             }
 
-            return Ok(result.ToList());
+            return Ok(result);
         }
 
         [HttpGet("search")]
-        public ActionResult<List<Book>> GetBookByAuthor(string author)
+        public ActionResult<List<BookDto>> GetBookByAuthor(string author)
         {
-            var result = _books.Where(b => b.Author?.Equals(author, StringComparison.OrdinalIgnoreCase) == true);
+            var result = _books.Where(b => b.Author?.Equals(author, StringComparison.OrdinalIgnoreCase) == true)
+                            .Select(b => MapToDto(b))
+                            .ToList();
 
-            if (result.ToList().Count == 0)
+            if (result.Count == 0)
                 return NotFound();
 
-            return Ok(result.ToList());
+            return Ok(result);
         }
 
         [HttpPost]
-        public ActionResult<Book> Create(Book newBook)
+        public ActionResult<BookDto> Create(CreateBookDto newBook)
         {
-            newBook.Id = _books.Count + 1;
-            _books.Add(newBook);
+            var book = MapToModel(newBook);
+            _books.Add(book);
 
-            return CreatedAtAction(nameof(GetById), new { Id = newBook.Id }, newBook);
+            var dto = MapToDto(book);
+
+            return CreatedAtAction(nameof(GetById), new { Id = dto.Id }, dto);
         }
 
         [HttpPut("{id}/price")]
@@ -238,9 +249,10 @@ namespace MyFirstAPI.Controllers
         }
 
         [HttpGet("price/{minPrice:decimal}/{maxPrice:decimal}")]
-        public ActionResult<List<Book>> GetBooksByMinMaxPrice(decimal minPrice, decimal maxPrice)
+        public ActionResult<List<BookDto>> GetBooksByMinMaxPrice(decimal minPrice, decimal maxPrice)
         {
             var result = _books.Where(b => b.Price >= minPrice && b.Price <= maxPrice)
+                            .Select(b => MapToDto(b))
                             .ToList();  
 
             if (result.Count == 0)
@@ -249,6 +261,29 @@ namespace MyFirstAPI.Controllers
             return Ok(result);
         }
           
+        private BookDto MapToDto(Book book)
+        {
+            return new BookDto
+            {
+                Id = book.Id,
+                Title = book.Title,
+                Author = book.Author,
+                Price = book.Price,
+                IsAvailable = book.IsAvailable
+            };
+        }
+
+        private Book MapToModel(CreateBookDto createBookDto)
+        {
+            return new Book
+            {
+                Id = _books.Count + 1,
+                Title = createBookDto.Title,
+                Author = createBookDto.Author,
+                Price = createBookDto.Price,
+                IsAvailable = createBookDto.IsAvailable
+            };
+        }
     }
 }
 
@@ -260,3 +295,26 @@ public class Book
     public decimal Price { get; set; }
     public bool IsAvailable { get; set; }
 };
+
+public class BookDto
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = "";
+    public string? Author { get; set; }
+    public decimal Price { get; set; }
+    public bool IsAvailable { get; set; }
+}
+
+public class CreateBookDto
+{
+    [Required]
+    [MaxLength(100)]
+    public string Title { get; set; } = "";
+    
+    [MaxLength(100)]
+    public string? Author { get; set; }
+
+    [Range(0.1, 100000)]    
+    public decimal Price { get; set; }
+    public bool IsAvailable { get; set; }
+}

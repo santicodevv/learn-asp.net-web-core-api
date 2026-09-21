@@ -40,7 +40,7 @@
     "Parameters": [
       {
         "Name": "newBook",
-        "Type": "Book",
+        "Type": "CreateBookDto",
         "IsRequired": true
       }
     ],
@@ -123,18 +123,13 @@
     "Parameters": [
       {
         "Name": "minPrice",
-        "Type": "System.Int32",
+        "Type": "System.Decimal",
         "IsRequired": true
       },
       {
         "Name": "maxPrice",
-        "Type": "System.Int32",
+        "Type": "System.Decimal",
         "IsRequired": true
-      },
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": [
