@@ -308,3 +308,109 @@ GET /api/book?page=3&pageSize=20  → page=3, pageSize=20
 | `:decimal`, `:int`, etc. | Restricciones de tipo que devuelven 404 si no se cumplen |
 | Parámetros opcionales | Se definen con `= valorDefault` en el método |
 | Paginación | Se implementa con `Skip()` y `Take()` de LINQ |
+
+---
+
+## ✅ Validaciones con Data Annotations
+
+Después modifiqué algunos endpoints para recibir datos más específicos y agregué validaciones usando **Data Annotations**.
+
+Las Data Annotations son atributos que se colocan sobre las propiedades de una clase para declarar las reglas que deben cumplir. No tienen magia: simplemente describen las condiciones que queremos aplicar a nuestros datos.
+
+Por ejemplo, el DTO para crear un libro tiene estas reglas:
+
+```csharp
+public class CreateBookDto
+{
+    [Required]
+    [MaxLength(100)]
+    public string Title { get; set; } = "";
+
+    [MaxLength(100)]
+    public string? Author { get; set; }
+
+    [Range(0.1, 100000)]
+    public decimal Price { get; set; }
+
+    public bool IsAvailable { get; set; }
+}
+```
+
+En este caso:
+
+* `[Required]` indica que `Title` es obligatorio.
+* `[MaxLength(100)]` indica que el texto no puede superar los 100 caracteres.
+* `[Range(0.1, 100000)]` indica que `Price` debe estar dentro de ese rango.
+
+### ¿Qué hace `[ApiController]` con estas reglas?
+
+El atributo `[ApiController]` activa la validación automática del modelo. Cuando ASP.NET Core recibe una petición, comprueba si los datos cumplen las reglas definidas en las propiedades.
+
+Si los datos no son válidos, la acción no se ejecuta y ASP.NET Core responde automáticamente con `400 Bad Request`, incluyendo información sobre los errores de validación. De esta manera no tenemos que comprobar manualmente cada propiedad dentro del endpoint.
+
+> Las Data Annotations declaran las reglas y `[ApiController]` hace que ASP.NET Core valide automáticamente esas reglas al recibir la petición.
+
+---
+
+## 📦 DTOs: enviar y recibir solo los datos necesarios
+
+Un **DTO** (*Data Transfer Object*) es un objeto sencillo que define los datos que queremos recibir o enviar a través de la API.
+
+Podemos verlo como un recorte del modelo original: elegimos únicamente las propiedades que necesitamos exponer en una operación concreta. Esto evita enviar información innecesaria y permite controlar mejor los datos que entran y salen de la API.
+
+### DTO para crear un libro
+
+El modelo `Book` tiene un `Id`, pero al crear un libro no necesitamos recibirlo porque el sistema lo genera automáticamente. Por eso el endpoint `POST /api/book` recibe un `CreateBookDto`:
+
+```csharp
+[HttpPost]
+public ActionResult<BookDto> Create(CreateBookDto newBook)
+{
+    var book = MapToModel(newBook);
+    _books.Add(book);
+
+    var dto = MapToDto(book);
+
+    return CreatedAtAction(nameof(GetById), new { Id = dto.Id }, dto);
+}
+```
+
+El `CreateBookDto` solo recibe los datos necesarios para crear el libro:
+
+* `Title`
+* `Author`
+* `Price`
+* `IsAvailable`
+
+El `Id` no se recibe desde el cliente. En `MapToModel`, la API lo asigna internamente:
+
+```csharp
+Id = _books.Count + 1
+```
+
+Después de crear el libro, la API devuelve un `BookDto`. Este DTO sí incluye el `Id`, porque ahora forma parte de la información que podemos mostrar al cliente.
+
+### ¿Por qué usar DTOs?
+
+Los DTOs permiten:
+
+* Recibir únicamente los campos necesarios para una operación.
+* Evitar que el cliente envíe propiedades que debe controlar el sistema, como el `Id`.
+* No exponer propiedades internas del modelo.
+* Aplicar validaciones específicas para cada caso de uso.
+* Mantener separados los modelos internos de los datos que viajan por la API.
+
+En resumen, los DTOs hacen que los métodos trabajen con los datos exactos que nosotros decidimos recibir o enviar, en lugar de aceptar o devolver siempre el modelo completo.
+
+### 📝 Resumen de validaciones y DTOs
+
+| Concepto | Aprendizaje |
+|----------|-------------|
+| Data Annotations | Atributos que declaran reglas para las propiedades |
+| `[ApiController]` | Activa la validación automática del modelo |
+| `400 Bad Request` | Respuesta automática cuando los datos no cumplen las reglas |
+| `CreateBookDto` | Define los datos permitidos al crear un libro |
+| `BookDto` | Define los datos que la API devuelve al cliente |
+| `Id` | Lo genera el sistema y no se recibe al crear el libro |
+
+
