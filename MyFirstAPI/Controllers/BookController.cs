@@ -305,7 +305,7 @@ public class BookDto
     public bool IsAvailable { get; set; }
 }
 
-public class CreateBookDto
+public class CreateBookDto : IValidatableObject
 {
     [Required]
     [MaxLength(100)]
@@ -317,4 +317,10 @@ public class CreateBookDto
     [Range(0.1, 100000)]    
     public decimal Price { get; set; }
     public bool IsAvailable { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext vct)
+    {
+        if (Author?.Contains("P") == true)
+            yield return new ValidationResult("El Author no puede incluir esa letra", new[] { nameof(Author) });
+    }
 }
