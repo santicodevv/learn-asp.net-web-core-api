@@ -2,7 +2,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
-builder.Services.AddSingleton<ITaskRepository, TaskReposity>();
+builder.Services.AddSingleton<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddOpenApi();
 

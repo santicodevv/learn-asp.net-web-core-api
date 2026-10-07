@@ -1,4 +1,4 @@
-public class TaskReposity : ITaskRepository
+public class TaskRepository : ITaskRepository
 {
     private readonly List<TaskItem> _tasks = new List<TaskItem>();
 
@@ -20,12 +20,6 @@ public class TaskReposity : ITaskRepository
     public void Add(TaskItem task)
     {
         _tasks.Add(task);
-    }
-
-    public void Update(TaskItem updateTask)
-    {
-        var index = _tasks.FindIndex(t => t.Id == updateTask.Id);
-        _tasks[index].IsCompleted = updateTask.IsCompleted;
     }
 
     public List<TaskItem> GetByState(bool state)

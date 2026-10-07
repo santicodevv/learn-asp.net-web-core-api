@@ -4,5 +4,5 @@ public interface ITaskService
     List<TaskDto> GetByState(bool state);
     TaskDto? GetById(int id);
     TaskDto Create(CreateTaskDto task);
-    TaskDto Update(TaskDto task, UpdateTaskDto updateTaskDto);
+    TaskDto? Update(int id, UpdateTaskDto updateTaskDto);
 }

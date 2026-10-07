@@ -37,21 +37,18 @@ public class TaskService : ITaskService
         return MapToDto(newTask);
     }
 
-    public TaskDto Update(TaskDto task, UpdateTaskDto updateTaskDto)
+    public TaskDto? Update(int id, UpdateTaskDto updateTaskDto)
     {
-        var updateTask = new TaskItem
-        {
-            Id = task.Id,
-            Title = task.Title,
-            Description = task.Description,
-            IsCompleted = updateTaskDto.IsCompleted,
-            Priority = task.Priority,
-            DueDate = task.DueDate,
-            CreatedAt = task.CreatedAt,
-        };
-        _taskRepository.Update(updateTask);
+        var task = _taskRepository.GetById(id);
 
-        return MapToDto(updateTask);
+        if (task is null)
+        {
+            return null;
+        }
+
+        task.IsCompleted = updateTaskDto.IsCompleted;
+
+        return MapToDto(task);
     }
 
     public List<TaskDto> GetByState(bool state)
