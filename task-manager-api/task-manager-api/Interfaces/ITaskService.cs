@@ -1,8 +1,8 @@
 public interface ITaskService
 {
-    List<TaskDto> GetAll(int page, int pageSize);
-    List<TaskDto> GetByState(bool state);
-    TaskDto? GetById(int id);
-    TaskDto Create(CreateTaskDto task);
-    TaskDto? Update(int id, UpdateTaskDto updateTaskDto);
+    Task<List<TaskDto>> GetAllAsync(int page, int pageSize);
+    Task<List<TaskDto>> GetByStateAsync(bool state);
+    Task<TaskDto?> GetByIdAsync(int id);
+    Task<TaskDto> CreateAsync(CreateTaskDto task);
+    Task<TaskDto?> UpdateAsync(int id, UpdateTaskDto updateTaskDto);
 }

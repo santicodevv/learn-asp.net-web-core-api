@@ -1,8 +1,8 @@
 public interface ITaskRepository
 {
-    List<TaskItem> GetAll(int page, int pageSize);
-    List<TaskItem> GetByState(bool state);
-    TaskItem? GetById(int id);
-    void Add(TaskItem task);
+    Task<List<TaskItem>> GetAllAsync(int page, int pageSize);
+    Task<List<TaskItem>> GetByStateAsync(bool state);
+    Task<TaskItem?> GetByIdAsync(int id);
+    Task AddAsync(TaskItem task);
     int GenerateId();
 }

@@ -8,19 +8,21 @@ public class TaskService : ITaskService
         _taskRepository = taskRepository;
     }
 
-    public List<TaskDto> GetAll(int page, int pageSize)
+    public async Task<List<TaskDto>> GetAllAsync(int page, int pageSize)
     {
-        var result = _taskRepository.GetAll(page, pageSize).Select(t => MapToDto(t)).ToList();
-        return result;
+        var res = await _taskRepository.GetAllAsync(page, pageSize);
+
+        var data = res.Select(t => MapToDto(t)).ToList();
+        return data;
     }
 
-    public TaskDto? GetById(int id)
+    public async Task<TaskDto?> GetByIdAsync(int id)
     {
-        var findTask = _taskRepository.GetById(id);
+        var findTask = await _taskRepository.GetByIdAsync(id);
         return findTask is null ? null : MapToDto(findTask);
     }
 
-    public TaskDto Create(CreateTaskDto dto)
+    public async Task<TaskDto> CreateAsync(CreateTaskDto dto)
     {
         var newTask = new TaskItem
         {
@@ -32,14 +34,14 @@ public class TaskService : ITaskService
             DueDate = dto.DueDate,
             CreatedAt = DateTime.Now
         };
-        _taskRepository.Add(newTask);
+        await _taskRepository.AddAsync(newTask);
 
         return MapToDto(newTask);
     }
 
-    public TaskDto? Update(int id, UpdateTaskDto updateTaskDto)
+    public async Task<TaskDto?> UpdateAsync(int id, UpdateTaskDto updateTaskDto)
     {
-        var task = _taskRepository.GetById(id);
+        var task = await _taskRepository.GetByIdAsync(id);
 
         if (task is null)
         {
@@ -47,14 +49,14 @@ public class TaskService : ITaskService
         }
 
         task.IsCompleted = updateTaskDto.IsCompleted;
-
         return MapToDto(task);
     }
 
-    public List<TaskDto> GetByState(bool state)
+    public async Task<List<TaskDto>> GetByStateAsync(bool state)
     {
-        var result = _taskRepository.GetByState(state).Select(t => MapToDto(t)).ToList();
-        return result;
+        var res  = await _taskRepository.GetByStateAsync(state);
+        var data = res.Select(t => MapToDto(t)).ToList();
+        return data;
     }
 
     private TaskDto MapToDto(TaskItem task)

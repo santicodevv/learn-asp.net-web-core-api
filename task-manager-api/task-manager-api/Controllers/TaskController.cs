@@ -12,16 +12,17 @@ public class TaskController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<List<TaskDto>> GetAll(int page = 1, int pageSize = 10)
+    public async Task<ActionResult<List<TaskDto>>> GetAllAsync(int page = 1, int pageSize = 10)
     {
-        var result = _taskService.GetAll(page, pageSize);
+        var result = await _taskService.GetAllAsync(page, pageSize);
+
         return Ok(result);
     }
 
     [HttpGet("{id:int}")]
-    public ActionResult<TaskDto> GetById(int id)
+    public async Task<ActionResult<TaskDto>> GetByIdAsync(int id)
     {
-        var findTask = _taskService.GetById(id);
+        var findTask = await _taskService.GetByIdAsync(id);
 
         if (findTask is null)
             return NotFound("Task not found");
@@ -30,17 +31,17 @@ public class TaskController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<TaskDto> Create(CreateTaskDto dto)
+    public async Task<ActionResult<TaskDto>> CreateAsync(CreateTaskDto dto)
     {
-        var finishTask = _taskService.Create(dto);
+        var finishTask = await _taskService.CreateAsync(dto);
         
-        return CreatedAtAction(nameof(GetById), new { Id = finishTask.Id }, finishTask);
+        return CreatedAtAction(nameof(GetByIdAsync), new { Id = finishTask.Id }, finishTask);
     }
 
     [HttpPut("{id}")]
-    public ActionResult<TaskDto> Update(int id, UpdateTaskDto updateTaskDto)
+    public async Task<ActionResult<TaskDto>> UpdateAsync(int id, UpdateTaskDto updateTaskDto)
     {
-        var task = _taskService.Update(id, updateTaskDto);
+        var task = await _taskService.UpdateAsync(id, updateTaskDto);
 
         if (task is null)
             return NotFound("Task not found");
@@ -49,9 +50,9 @@ public class TaskController : ControllerBase
     }
 
     [HttpGet("search")]
-    public ActionResult<List<TaskDto>> GetByState(bool state)
+    public async Task<ActionResult<List<TaskDto>>> GetByStateAsync(bool state)
     {
-        var result = _taskService.GetByState(state);
+        var result = await _taskService.GetByStateAsync(state);
 
         if (result.Count == 0)
             return NotFound();
