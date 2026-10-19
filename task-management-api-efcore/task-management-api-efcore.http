@@ -1,0 +1,6 @@
+@task_management_api_efcore_HostAddress = http://localhost:5054
+
+GET {{task_management_api_efcore_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
