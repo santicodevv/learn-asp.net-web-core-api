@@ -12,6 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 builder.Services.AddAutoMapper( cg => {}, typeof(CategoryProfile));
+builder.Services.AddAutoMapper( cg => {}, typeof(ProductProfile));
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

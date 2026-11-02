@@ -10,5 +10,6 @@ public class CategoryProfile : Profile
         CreateMap<CategoryDTO, Category>().ReverseMap();
         CreateMap<CreateCategoryAsyncDTO, Category>().ReverseMap();
         CreateMap<UpdateCategoryDTO, Category>().ReverseMap();
+        
     }
 }
