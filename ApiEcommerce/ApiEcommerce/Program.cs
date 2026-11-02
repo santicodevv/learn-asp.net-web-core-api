@@ -1,5 +1,7 @@
+using ApiEcommerce.Mapping;
 using ApiEcommerce.Repository;
 using ApiEcommerce.Repository.IRepository;
+using ApiEcommerce.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 var dbConnectionString = builder.Configuration.GetConnectionString("ConexionSql");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConnectionString));
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryServices, CategoryServices>();
+builder.Services.AddAutoMapper( cg => {}, typeof(CategoryProfile));
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

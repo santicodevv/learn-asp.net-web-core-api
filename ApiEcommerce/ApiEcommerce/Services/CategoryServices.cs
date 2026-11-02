@@ -11,8 +11,39 @@ public class CategoryServices : ICategoryServices
         _repository = categoryRepository;
     }
 
-    public ICollection<Category> GetCategories()
+    public async Task<ICollection<Category>> GetCategoriesAsync()
     {
-        return _repository.GetCategories();
+        return  await _repository.GetCategoriesAsync();
+    }
+
+    public async Task<Category?> GetCategoryByIdAsync(int id)
+    {
+        return await _repository.GetCategoryByIdAsync(id);
+    }
+
+    public async Task<bool> CategoryExistsAsync(int id)
+    {
+        return await _repository.CategoryExistsAsync(id);
+    }
+
+    public async Task<bool> CategoryExistsAsync(string name)
+    {
+        return await _repository.CategoryExistsAsync(name);
+    }
+
+
+    public async Task<bool> CreateCategoryAsync(Category category)
+    {
+        return await _repository.CreateCategoryAsync(category);
+    }
+
+    public async Task<bool> UpdateCategoryAsync(Category category)
+    {
+        return await _repository.UpdateCategoryAsync(category);
+    }
+
+    public async Task<bool> DeleteCategoryAsync(Category category)
+    {
+        return await _repository.DeleteCategoryAsync(category);
     }
 }

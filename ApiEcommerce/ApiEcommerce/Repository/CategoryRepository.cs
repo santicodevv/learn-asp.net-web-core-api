@@ -12,49 +12,50 @@ public class CategoryRepository : ICategoryRepository
         _db = dbContext;
     }
 
-    public async Task<bool> CategoryExists(int id)
+    public async Task<bool> CategoryExistsAsync(int id)
     {
         return await _db.Categories.AnyAsync(c => c.Id == id);
     }
 
-    public async Task<bool> CategoryExists(string name)
+    public async Task<bool> CategoryExistsAsync(string name)
     {
         return await _db.Categories.AnyAsync(c => c.Name.ToLower().Trim() == name.ToLower().Trim());
     }
 
-    public async Task<bool> CreateCategory(Category category)
+    public async Task<bool> CreateCategoryAsync(Category category)
     {
         category.CreatedAt = DateTime.Now;
         await _db.Categories.AddAsync(category);
 
-        return Save();
+        return await SaveAsync();
     }
 
-    public async Task<bool> DeleteCategory(Category category)
+    public async Task<bool> DeleteCategoryAsync(Category category)
     {
         _db.Categories.Remove(category);
-        return Save();
+        return await SaveAsync();
     }
 
-    public async Task<ICollection<Category>> GetCategories()
+    public async Task<ICollection<Category>> GetCategoriesAsync()
     {
-        return await _db.Categories.OrderBy(c => c.Name).ToListAsync();
+        return await _db.Categories.OrderBy(c => c.Id).ToListAsync();
     }
 
-    public async Task<Category> GetCategory(int id)
+    public async Task<Category?> GetCategoryByIdAsync(int id)
     {
-        return await _db.Categories.FirstOrDefaultAsync(c => c.Id == id) ?? throw new InvalidOperationException($"La categoria con el id {id} no existe");
+        return await _db.Categories.FirstOrDefaultAsync(c => c.Id == id) ?? null;
     }
 
-    public bool Save()
-    {
-        return _db.SaveChanges() >= 0 ? true : false;
-    }
-
-    public bool UpdateCategory(Category category)
+    public async Task<bool> UpdateCategoryAsync(Category category)
     {
         category.CreatedAt = DateTime.Now;
         _db.Categories.Update(category);
-        return Save();
+        return await SaveAsync();
     }
+
+        public async Task<bool> SaveAsync()
+    {
+        return await _db.SaveChangesAsync() >= 0 ? true : false;
+    }
+
 }

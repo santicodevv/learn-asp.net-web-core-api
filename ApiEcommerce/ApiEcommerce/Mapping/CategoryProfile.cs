@@ -7,7 +7,8 @@ public class CategoryProfile : Profile
 {
     public CategoryProfile()
     {
-        CreateMap<CreateCategoryDTO, Category>();
-        CreateMap<Category, CreateCategoryDTO>();
+        CreateMap<CategoryDTO, Category>().ReverseMap();
+        CreateMap<CreateCategoryAsyncDTO, Category>().ReverseMap();
+        CreateMap<UpdateCategoryDTO, Category>().ReverseMap();
     }
 }

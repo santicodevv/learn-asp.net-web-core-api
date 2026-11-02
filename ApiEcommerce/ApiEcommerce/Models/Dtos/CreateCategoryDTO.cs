@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 namespace ApiEcommerce.Models.Dtos;
 
-public class CreateCategoryDTO
+public class CreateCategoryAsyncDTO
 {
     [Required(ErrorMessage = "El nombre es obligatorio.")]
     [MaxLength(50, ErrorMessage = "El nombre no puede tener mas de 50 caracteres.")]
